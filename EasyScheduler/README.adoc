@@ -1,0 +1,25 @@
+:repository-owner: AzagraMac
+:repository-name: EasyScheduler
+
+= {repository-name} Library for Arduino =
+
+The {repository-name} library enables the Arduino link:https://store.arduino.cc/arduino-uno-rev3[Uno], link:https://store.arduino.cc/arduino-nano[Nano], and link:https://store.arduino.cc/arduino-mega-2560-rev3[Mega] to run multiple functions at the same time. This allows tasks to happen without interrupting each other. 
+
+== License ==
+
+                    GNU GENERAL PUBLIC LICENSE
+                       Version 3, 29 June 2007
+
+ Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+
+                            Preamble
+
+  The GNU General Public License is a free, copyleft license for
+software and other kinds of works.
+
+
+    https://www.gnu.org/licenses/quick-guide-gplv3.html
+
+
