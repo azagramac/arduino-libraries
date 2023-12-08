@@ -1,5 +1,5 @@
 <p align="center">
-  <img height="256" src="images/logo.jpeg">
+  <img height="200" src="https://github.com/AzagraMac/arduino-libraries/assets/571796/98b7d23b-63ab-438d-a098-ca27784ad950">
 </p>
 
 ## Installation libraries
@@ -20,7 +20,7 @@ https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32
 https://arduino.esp8266.com/stable/package_esp8266com_index.json
 ```
 
-### Libraries:
+### List libraries:
 ```
 * Adafruit_BME280_Library
 * Adafruit_BusIO
