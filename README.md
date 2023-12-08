@@ -67,7 +67,6 @@ https://arduino.esp8266.com/stable/package_esp8266com_index.json
 * FabGL
 * Firmata
 * HTTPClient
-* HttpClient_ryzen_Jun-22-173916-2023_CaseConflict
 * Keyboard
 * LiquidCrystal
 * lvgl
