@@ -138,8 +138,8 @@ const uint8_t AUX_INPUT_OUTPUT_SUPPORTED       = 101; // 0x65 - bit encoded
 
 
 const uint8_t SERVICE_02                       = 2;
-
-
+const uint8_t SERVICE_03                       = 3;
+const uint8_t PID_INTERVAL_OFFSET 			   = 0x20;
 
 
 //-------------------------------------------------------------------------------------//
@@ -259,7 +259,7 @@ const char * const RESET_ALL                  = "AT Z";        // General
 // Class constants
 //-------------------------------------------------------------------------------------//
 const float  KPH_MPH_CONVERT       = 0.6213711922;
-const int8_t QUERY_LEN	           = 8;
+const int8_t QUERY_LEN	           = 9;
 const int8_t ELM_SUCCESS           = 0;
 const int8_t ELM_NO_RESPONSE       = 1;
 const int8_t ELM_BUFFER_OVERFLOW   = 2;
@@ -271,7 +271,8 @@ const int8_t ELM_TIMEOUT           = 7;
 const int8_t ELM_GETTING_MSG       = 8;
 const int8_t ELM_MSG_RXD           = 9;
 const int8_t ELM_GENERAL_ERROR     = -1;
-
+const int8_t DTC_CODE_LEN		   = 6;
+const int8_t DTC_MAX_CODES		   = 16;
 
 // Non-blocking (NB) command states
 typedef enum { SEND_COMMAND,
@@ -279,6 +280,8 @@ typedef enum { SEND_COMMAND,
                RESPONSE_RECEIVED,
                DECODED_OK,
                ERROR } obd_cmd_states;
+
+
 
 
 class ELM327
@@ -304,24 +307,29 @@ public:
 	byte responseByte_6;
 	byte responseByte_7;
 
-
-
-
+	struct dtcResponse {
+		uint codesFound = 0;
+		char codes[DTC_MAX_CODES][DTC_CODE_LEN];
+	} DTC_Response;
+	
 	bool begin(Stream& stream, const bool& debug = false, const uint16_t& timeout = 1000, const char& protocol = '0', const uint16_t& payloadLen = 40, const byte& dataTimeout = 0);
 	bool initializeELM(const char& protocol = '0', const byte& dataTimeout = 0);
 	void flushInputBuff();
 	uint64_t findResponse();
 	bool queryPID(const uint8_t& service, const uint16_t& pid, const uint8_t& num_responses = 1);
 	bool queryPID(char queryStr[]);
-	float processPID(const uint8_t& service, const uint16_t& pid, const uint8_t& num_responses, const uint8_t& numExpectedBytes, const float& scaleFactor = 1, const float& bias = 0);
+	double processPID(const uint8_t& service, const uint16_t& pid, const uint8_t& num_responses, const uint8_t& numExpectedBytes, const float& scaleFactor = 1, const float& bias = 0);
 	void sendCommand(const char *cmd);
 	int8_t sendCommand_Blocking(const char *cmd);
 	int8_t get_response();
 	bool timeout();
-	float conditionResponse(const uint8_t& numExpectedBytes, const float& scaleFactor = 1, const float& bias = 0);
+	double conditionResponse(const uint8_t& numExpectedBytes, const float& scaleFactor = 1, const float& bias = 0);
 
 	float batteryVoltage(void);
 	int8_t get_vin_blocking(char vin[]);
+	bool resetDTC();
+	void currentDTCCodes(const bool& isBlocking = true);
+	bool isPidSupported(uint8_t pid);
 
 	uint32_t supportedPIDs_1_20();
 
@@ -368,7 +376,6 @@ public:
 	float catTempB2S1();
 	float catTempB1S2();
 	float catTempB2S2();
-
 
 	uint32_t supportedPIDs_41_60();
 
