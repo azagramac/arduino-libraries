@@ -393,7 +393,7 @@ int8_t ELM327::nextIndex(char const *str,
 }
 
 /*
- void ELM327::conditionResponse(const uint8_t &numExpectedBytes, const float &scaleFactor, const float &bias)
+ double ELM327::conditionResponse(const uint8_t &numExpectedBytes, const float &scaleFactor, const float &bias)
 
  Description:
  ------------
@@ -408,9 +408,9 @@ int8_t ELM327::nextIndex(char const *str,
 
  Return:
  -------
-  * float - Converted numerical value
+  * double - Converted numerical value
 */
-double ELM327::conditionResponse(const uint8_t &numExpectedBytes, const float &scaleFactor, const float &bias)
+double ELM327::conditionResponse(const uint8_t &numExpectedBytes, const double &scaleFactor, const float &bias)
 {
     uint8_t numExpectedPayChars = numExpectedBytes * 2;
     uint8_t payCharDiff = numPayChars - numExpectedPayChars;
@@ -475,7 +475,7 @@ double ELM327::conditionResponse(const uint8_t &numExpectedBytes, const float &s
         }
         else 
         {
-            return ((double)(response >> (4 * payCharDiff)) * scaleFactor) + bias;
+            return ((response >> (4 * payCharDiff)) * scaleFactor) + bias;
         }
         
     }
@@ -575,7 +575,7 @@ bool ELM327::queryPID(char queryStr[])
 }
 
 /*
- float ELM327::processPID(const uint8_t& service, const uint16_t& pid, const uint8_t& num_responses, const uint8_t& numExpectedBytes, const float& scaleFactor, const float& bias)
+ double ELM327::processPID(const uint8_t& service, const uint16_t& pid, const uint8_t& num_responses, const uint8_t& numExpectedBytes, const float& scaleFactor, const float& bias)
 
  Description:
  ------------
@@ -597,7 +597,7 @@ bool ELM327::queryPID(char queryStr[])
  -------
   * float - The PID value if successfully received, else 0.0
 */
-double ELM327::processPID(const uint8_t &service, const uint16_t &pid, const uint8_t &num_responses, const uint8_t &numExpectedBytes, const float &scaleFactor, const float &bias)
+double ELM327::processPID(const uint8_t &service, const uint16_t &pid, const uint8_t &num_responses, const uint8_t &numExpectedBytes, const double &scaleFactor, const float &bias)
 {
     if (nb_query_state == SEND_COMMAND)
     {
@@ -2689,7 +2689,7 @@ void ELM327::currentDTCCodes(const bool &isBlocking)
             // Each response line will start with "43" indicating it is a response to a Mode 03 request.
             // See p. 31 of ELM327 datasheet for details and lookup table of code types.
 
-            uint codesFound = strlen(payload) / 8; // Each code found returns 8 chars starting with "43"
+            uint8_t codesFound = strlen(payload) / 8; // Each code found returns 8 chars starting with "43"
             idx = strstr(payload, "43") + 4;       // Pointer to first DTC code digit (third char in the response)
 
             if (codesFound > DTC_MAX_CODES)        // I don't think the ELM is capable of returning

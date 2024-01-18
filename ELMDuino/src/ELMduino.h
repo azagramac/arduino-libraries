@@ -271,8 +271,8 @@ const int8_t ELM_TIMEOUT           = 7;
 const int8_t ELM_GETTING_MSG       = 8;
 const int8_t ELM_MSG_RXD           = 9;
 const int8_t ELM_GENERAL_ERROR     = -1;
-const int8_t DTC_CODE_LEN		   = 6;
-const int8_t DTC_MAX_CODES		   = 16;
+const uint8_t DTC_CODE_LEN		   = 6;
+const uint8_t DTC_MAX_CODES		   = 16;
 
 // Non-blocking (NB) command states
 typedef enum { SEND_COMMAND,
@@ -308,7 +308,7 @@ public:
 	byte responseByte_7;
 
 	struct dtcResponse {
-		uint codesFound = 0;
+		uint8_t codesFound = 0;
 		char codes[DTC_MAX_CODES][DTC_CODE_LEN];
 	} DTC_Response;
 	
@@ -318,12 +318,12 @@ public:
 	uint64_t findResponse();
 	bool queryPID(const uint8_t& service, const uint16_t& pid, const uint8_t& num_responses = 1);
 	bool queryPID(char queryStr[]);
-	double processPID(const uint8_t& service, const uint16_t& pid, const uint8_t& num_responses, const uint8_t& numExpectedBytes, const float& scaleFactor = 1, const float& bias = 0);
+	double processPID(const uint8_t& service, const uint16_t& pid, const uint8_t& num_responses, const uint8_t& numExpectedBytes, const double& scaleFactor = 1, const float& bias = 0);
 	void sendCommand(const char *cmd);
 	int8_t sendCommand_Blocking(const char *cmd);
 	int8_t get_response();
 	bool timeout();
-	double conditionResponse(const uint8_t& numExpectedBytes, const float& scaleFactor = 1, const float& bias = 0);
+	double conditionResponse(const uint8_t& numExpectedBytes, const double& scaleFactor = 1, const float& bias = 0);
 
 	float batteryVoltage(void);
 	int8_t get_vin_blocking(char vin[]);
