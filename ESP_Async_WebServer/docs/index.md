@@ -4,9 +4,10 @@
 [![Continuous Integration](https://github.com/mathieucarbou/ESPAsyncWebServer/actions/workflows/ci.yml/badge.svg)](https://github.com/mathieucarbou/ESPAsyncWebServer/actions/workflows/ci.yml)
 [![PlatformIO Registry](https://badges.registry.platformio.org/packages/mathieucarbou/library/ESP%20Async%20WebServer.svg)](https://registry.platformio.org/libraries/mathieucarbou/ESP%20Async%20WebServer)
 
-Async Web Server for ESP31B
+Asynchronous HTTP and WebSocket Server Library for ESP32.
+Supports: WebSocket, SSE, Authentication, Arduino Json 7, File Upload, Static File serving, URL Rewrite, URL Redirect, etc.
 
-This fork is based on https://github.com/yubox-node-org/ESPAsyncWebServer and includes all the concurrency fixes.
+This fork is based on [yubox-node-org/ESPAsyncWebServer](https://github.com/yubox-node-org/ESPAsyncWebServer) and includes all the concurrency fixes.
 
 ## Changes in this fork
 
@@ -16,10 +17,12 @@ This fork is based on https://github.com/yubox-node-org/ESPAsyncWebServer and in
 - Some code cleanup
 - `SSE_MAX_QUEUED_MESSAGES` to control the maximum number of messages that can be queued for a SSE client
 - `write()` function public in `AsyncEventSource.h`
-- Arduino Json 7 compatibility and by default, still compatible with 6 (`AsyncJson.h`)
+- Arduino Json 7 compatibility and backward compatible with 6 and 6 (changes in `AsyncJson.h`). The API to use Json has not changed. These are only internal changes.
 - `WS_MAX_QUEUED_MESSAGES`: control the maximum number of messages that can be queued for a Websocket client
 - Resurrected `AsyncWebSocketMessageBuffer` and `makeBuffer()` in order to make the fork API-compatible with the original library from me-no-dev regarding WebSocket.
-- [#5](https://github.com/mathieucarbou/ESPAsyncWebServer/pull/5): set real "Last-Modified" header based on file's LastWrite time ([@vortigont](https://github.com/vortigont))
+- [#5](https://github.com/mathieucarbou/ESPAsyncWebServer/pull/5) ([@vortigont](https://github.com/vortigont)): set real "Last-Modified" header based on file's LastWrite time
+- [#13](https://github.com/mathieucarbou/ESPAsyncWebServer/pull/13) ([@tueddy](https://github.com/tueddy)): Compile with Arduino 3 (ESP-IDF 5.1)
+- [#14](https://github.com/mathieucarbou/ESPAsyncWebServer/pull/14) ([@nilo85](https://github.com/nilo85)): Add support for Auth & GET requests in AsyncCallbackJsonWebHandler
 
 ## Documentation
 
