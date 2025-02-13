@@ -22,68 +22,73 @@ https://arduino.esp8266.com/stable/package_esp8266com_index.json
 
 ### List libraries:
 ```
-* Adafruit_BME280_Library
-* Adafruit_BusIO
-* Adafruit_Circuit_Playground
-* Adafruit_GFX_Library
-* Adafruit_GPS_Library
-* Adafruit_ILI9341
-* Adafruit_LED_Backpack_Library
-* Adafruit_SH110X
-* Adafruit_SleepyDog_Library
-* Adafruit_SSD1306
-* Adafruit_STMPE610
-* Adafruit_TouchScreen
-* Adafruit_TSC2007
-* Adafruit_Unified_Sensor
-* Adafruit_Zero_DMA_Library
-* Adafruit_Zero_FFT_Library
-* Adafruit_Zero_PDM_Library
-* Arduino_APA102
-* Arduino_APDS9960
-* Arduino_AVRSTL
-* Arduino_BHY2
-* Arduino_BHY2Host
-* Arduino_BQ24195
-* Arduino_Braccio_plusplus
-* Arduino_BuiltIn
-* Arduino_Cloud_Provider_Examples
-* arduino-DuinoCoin
-* ArduinoHttpClient
-* ArduinoJson
-* Arduino_Low_Power
-* ArduinoMqttClient
-* Arduino_SigFox_for_MKRFox1200
-* ArduinoUniqueID
-* Arduino_Uno_WiFi_Dev_Ed_Library
-* AsyncTCP
-* DHT_sensor_library
-* EasyScheduler
-* ELMDuino
-* ESPAsyncTCP
-* ESPAsyncWebServer
-* ESP_QRcode
-* Ethernet
-* FabGL
-* Firmata
-* HTTPClient
-* Keyboard
-* LiquidCrystal
-* lvgl
-* Mouse
-* NTPClient
-* RTClib
-* RTCZero
-* SD
-* SD_MMC
-* Servo
-* Stepper
-* StreamJoin
-* TFT
-* U8g2
-* USB
-* WaveHC
-* WebServer
-* WiFi
-* WiFiClientSecure
+Adafruit_BME280_Library
+Adafruit_BusIO
+Adafruit_Circuit_Playground
+Adafruit_GFX_Library
+Adafruit_GPS_Library
+Adafruit_ILI9341
+Adafruit_LED_Backpack_Library
+Adafruit_seesaw_Library
+Adafruit_SH110X
+Adafruit_SleepyDog_Library
+Adafruit_SSD1306
+Adafruit_ST7735_and_ST7789_Library
+Adafruit_STMPE610
+Adafruit_TouchScreen
+Adafruit_TSC2007
+Adafruit_Unified_Sensor
+Adafruit_Zero_DMA_Library
+Adafruit_Zero_FFT_Library
+Adafruit_Zero_PDM_Library
+Arduino_APA102
+Arduino_APDS9960
+Arduino_AVRSTL
+Arduino_BHY2
+Arduino_BHY2Host
+Arduino_BQ24195
+Arduino_Braccio_plusplus
+Arduino_BuiltIn
+Arduino_Cloud_Provider_Examples
+arduino-DuinoCoin
+ArduinoHttpClient
+ArduinoJson
+Arduino_Low_Power
+ArduinoMqttClient
+Arduino_SigFox_for_MKRFox1200
+ArduinoUniqueID
+Arduino_Uno_WiFi_Dev_Ed_Library
+AsyncTCP
+DHT_sensor_library
+EasyScheduler
+ELMDuino
+ESP8266_and_ESP32_OLED_driver_for_SSD1306_displays
+ESPAsyncTCP
+ESP_Async_WebServer
+ESP_QRcode
+Ethernet
+FabGL
+Firmata
+HTTPClient
+Keyboard
+LiquidCrystal
+lvgl
+Matter
+Mouse
+NTPClient
+RTClib
+RTCZero
+SD
+SD_MMC
+Servo
+Stepper
+StreamJoin
+TFT
+U8g2
+USB
+WaveHC
+WebServer
+WiFi
+WiFiClientSecure
+Zigbee
 ```
