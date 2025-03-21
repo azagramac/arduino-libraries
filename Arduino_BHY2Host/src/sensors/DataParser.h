@@ -51,7 +51,7 @@ struct DataBSEC {
   uint16_t  iaq_s;       //iaq value for stationary use cases
   float     b_voc_eq;    //breath VOC equivalent (ppm)
   uint32_t  co2_eq;      //CO2 equivalent (ppm) [400,]
-  float     comp_t;      //compensated temperature (celcius)
+  float     comp_t;      //compensated temperature (celsius)
   float     comp_h;      //compensated humidity
   uint32_t  comp_g;      //compensated gas resistance (Ohms)
   uint8_t   accuracy;    //accuracy level: [0-3]
@@ -78,7 +78,7 @@ public:
   static void parseBSEC(SensorLongDataPacket& data, DataBSEC& vector);
   static void parseBSECLegacy(SensorLongDataPacket& data, DataBSEC& vector);
   static void parseData(SensorDataPacket& data, float& value, float scaleFactor, SensorPayload format);
-  static void parseActivity(SensorDataPacket& data, uint16_t value);
+  static void parseActivity(SensorDataPacket& data, uint16_t& value);
 };
 
 #endif
