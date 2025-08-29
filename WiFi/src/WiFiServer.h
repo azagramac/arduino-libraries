@@ -1,6 +1,6 @@
 /*
-  Server.h - Server class for Raspberry Pi
-  Copyright (c) 2016 Hristo Gochkov  All right reserved.
+  WiFiServer.h - Library for Arduino Wifi shield.
+  Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -16,54 +16,31 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-#ifndef _WIFISERVER_H_
-#define _WIFISERVER_H_
 
-#include "Arduino.h"
+#ifndef wifiserver_h
+#define wifiserver_h
+
+extern "C" {
+  #include "utility/wl_definitions.h"
+}
+
 #include "Server.h"
-#include "WiFiClient.h"
-#include "IPAddress.h"
+
+class WiFiClient;
 
 class WiFiServer : public Server {
-  private:
-    int sockfd;
-    int _accepted_sockfd = -1;
-    IPAddress _addr;
-    uint16_t _port;
-    uint8_t _max_clients;
-    bool _listening;
-    bool _noDelay = false;
+private:
+  uint16_t _port;
+  void*     pcb;
+public:
+  WiFiServer(uint16_t);
+  WiFiClient available(uint8_t* status = NULL);
+  void begin();
+  virtual size_t write(uint8_t);
+  virtual size_t write(const uint8_t *buf, size_t size);
+  uint8_t status();
 
-  public:
-    void listenOnLocalhost(){}
-
-    // _addr(INADDR_ANY) is the same as _addr() ==> 0.0.0.0
-    WiFiServer(uint16_t port=80, uint8_t max_clients=4):sockfd(-1),_accepted_sockfd(-1),_addr(),_port(port),_max_clients(max_clients),_listening(false),_noDelay(false) {
-      log_v("WiFiServer::WiFiServer(port=%d, ...)", port);
-    }
-    WiFiServer(const IPAddress& addr, uint16_t port=80, uint8_t max_clients=4):sockfd(-1),_accepted_sockfd(-1),_addr(addr),_port(port),_max_clients(max_clients),_listening(false),_noDelay(false) {
-      log_v("WiFiServer::WiFiServer(addr=%s, port=%d, ...)", addr.toString().c_str(), port);
-    }
-    ~WiFiServer(){ end();}
-    WiFiClient available();
-    WiFiClient accept(){return available();}
-    void begin(uint16_t port=0);
-    void begin(uint16_t port, int reuse_enable);
-    void setNoDelay(bool nodelay);
-    bool getNoDelay();
-    bool hasClient();
-    size_t write(const uint8_t *data, size_t len);
-    size_t write(uint8_t data){
-      return write(&data, 1);
-    }
-    using Print::write;
-
-    void end();
-    void close();
-    void stop();
-    operator bool(){return _listening;}
-    int setTimeout(uint32_t seconds);
-    void stopAll();
+  using Print::write;
 };
 
-#endif /* _WIFISERVER_H_ */
+#endif

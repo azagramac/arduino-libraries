@@ -1,77 +1,80 @@
 /*
- *  Udp.cpp: Library to send/receive UDP packets.
- *
- * NOTE: UDP is fast, but has some important limitations (thanks to Warren Gray for mentioning these)
- * 1) UDP does not guarantee the order in which assembled UDP packets are received. This
- * might not happen often in practice, but in larger network topologies, a UDP
- * packet can be received out of sequence.
- * 2) UDP does not guard against lost packets - so packets *can* disappear without the sender being
- * aware of it. Again, this may not be a concern in practice on small local networks.
- * For more information, see http://www.cafeaulait.org/course/week12/35.html
- *
- * MIT License:
- * Copyright (c) 2008 Bjoern Hartmann
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- *
- * bjoern@cs.stanford.edu 12/30/2008
- */
+  WiFiUdp.h - Library for Arduino Wifi shield.
+  Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
 
-#ifndef _WIFIUDP_H_
-#define _WIFIUDP_H_
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
 
-#include <Arduino.h>
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
+#ifndef wifiudp_h
+#define wifiudp_h
+
 #include <Udp.h>
-#include <cbuf.h>
+
+#define UDP_TX_PACKET_MAX_SIZE 24
 
 class WiFiUDP : public UDP {
 private:
-  int udp_server;
-  IPAddress multicast_ip;
-  IPAddress remote_ip;
-  uint16_t server_port;
-  uint16_t remote_port;
-  char * tx_buffer;
-  size_t tx_buffer_len;
-  cbuf * rx_buffer;
+  uint8_t _sock;  // socket ID for Wiz5100
+  uint16_t _port; // local port to listen on
+
 public:
-  WiFiUDP();
-  ~WiFiUDP();
-  uint8_t begin(IPAddress a, uint16_t p);
-  uint8_t begin(uint16_t p);
-  uint8_t beginMulticast(IPAddress a, uint16_t p);
-  void stop();
-  int beginMulticastPacket();
-  int beginPacket();
-  int beginPacket(IPAddress ip, uint16_t port);
-  int beginPacket(const char *host, uint16_t port);
-  int endPacket();
-  size_t write(uint8_t);
-  size_t write(const uint8_t *buffer, size_t size);
-  int parsePacket();
-  int available();
-  int read();
-  int read(unsigned char* buffer, size_t len);
-  int read(char* buffer, size_t len);
-  int peek();
-  void flush();
-  IPAddress remoteIP();
-  uint16_t remotePort();
+  WiFiUDP();  // Constructor
+  virtual uint8_t begin(uint16_t);	// initialize, start listening on specified port. Returns 1 if successful, 0 if there are no sockets available to use
+  virtual void stop();  // Finish with the UDP socket
+
+  // Sending UDP packets
+  
+  // Start building up a packet to send to the remote host specific in ip and port
+  // Returns 1 if successful, 0 if there was a problem with the supplied IP address or port
+  virtual int beginPacket(IPAddress ip, uint16_t port);
+  // Start building up a packet to send to the remote host specific in host and port
+  // Returns 1 if successful, 0 if there was a problem resolving the hostname or port
+  virtual int beginPacket(const char *host, uint16_t port);
+  // Finish off this packet and send it
+  // Returns 1 if the packet was sent successfully, 0 if there was an error
+  virtual int endPacket();
+  // Write a single byte into the packet
+  virtual size_t write(uint8_t);
+  // Write size bytes from buffer into the packet
+  virtual size_t write(const uint8_t *buffer, size_t size);
+  
+  using Print::write;
+
+  // Start processing the next available incoming packet
+  // Returns the size of the packet in bytes, or 0 if no packets are available
+  virtual int parsePacket();
+  // Number of bytes remaining in the current packet
+  virtual int available();
+  // Read a single byte from the current packet
+  virtual int read();
+  // Read up to len bytes from the current packet and place them into buffer
+  // Returns the number of bytes read, or 0 if none are available
+  virtual int read(unsigned char* buffer, size_t len);
+  // Read up to len characters from the current packet and place them into buffer
+  // Returns the number of characters read, or 0 if none are available
+  virtual int read(char* buffer, size_t len) { return read((unsigned char*)buffer, len); };
+  // Return the next byte from the current packet without moving on to the next byte
+  virtual int peek();
+  virtual void flush();	// Finish reading the current packet
+
+  // Return the IP address of the host who sent the current incoming packet
+  virtual IPAddress remoteIP();
+  // Return the port of the host who sent the current incoming packet
+  virtual uint16_t remotePort();
+
+  friend class WiFiDrv;
 };
 
-#endif /* _WIFIUDP_H_ */
+#endif
