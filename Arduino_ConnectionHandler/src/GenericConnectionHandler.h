@@ -31,11 +31,15 @@ class GenericConnectionHandler : public ConnectionHandler
 
     GenericConnectionHandler(bool const keep_alive=true): ConnectionHandler(keep_alive), _ch(nullptr) {}
 
-    #if defined(BOARD_HAS_NOTECARD) || defined(BOARD_HAS_LORA)
+    #if defined(BOARD_HAS_LORA)
       virtual bool available() = 0;
       virtual int read() = 0;
       virtual int write(const uint8_t *buf, size_t size) = 0;
     #else
+      int ping(IPAddress ip, uint8_t ttl = 128, uint8_t count = 1) override;
+      int ping(const String &hostname, uint8_t ttl = 128, uint8_t count = 1) override;
+      int ping(const char* host, uint8_t ttl = 128, uint8_t count = 1) override;
+
       unsigned long getTime() override;
 
       /*

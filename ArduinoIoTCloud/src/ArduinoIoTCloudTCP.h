@@ -1,25 +1,18 @@
 /*
-   This file is part of ArduinoIoTCloud.
+  This file is part of the ArduinoIoTCloud library.
 
-   Copyright 2019 ARDUINO SA (http://www.arduino.cc/)
+  Copyright (c) 2019 Arduino SA
 
-   This software is released under the GNU General Public License version 3,
-   which covers the main part of arduino-cli.
-   The terms of this license can be found at:
-   https://www.gnu.org/licenses/gpl-3.0.en.html
-
-   You can be released from the requirements of the above licenses by purchasing
-   a commercial license. Buying such a license is mandatory if you want to modify or
-   otherwise use the software for commercial activities involving the Arduino
-   software without disclosing the source code of your own applications. To purchase
-   a commercial license, send an email to license@arduino.cc.
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 */
 
 #ifndef ARDUINO_IOT_CLOUD_TCP_H
 #define ARDUINO_IOT_CLOUD_TCP_H
 
 /******************************************************************************
- * INCLUDE
+  INCLUDE
  ******************************************************************************/
 
 #include <AIoTC_Config.h>
@@ -35,9 +28,9 @@
 #endif
 
 #include <tls/utility/TLSClientMqtt.h>
-#include <tls/utility/TLSClientOta.h>
 
 #if OTA_ENABLED
+  #include <tls/utility/TLSClientOta.h>
   #include <ota/OTA.h>
 #endif
 
@@ -45,7 +38,7 @@
 #include "cbor/IoTCloudMessageEncoder.h"
 
 /******************************************************************************
-   CONSTANTS
+  CONSTANTS
  ******************************************************************************/
 static constexpr char DEFAULT_BROKER_ADDRESS[] = "iot.arduino.cc";
 static constexpr uint16_t DEFAULT_BROKER_PORT_SECURE_AUTH = 8885;
@@ -53,13 +46,22 @@ static constexpr uint16_t DEFAULT_BROKER_PORT_USER_PASS_AUTH = 8884;
 static constexpr uint16_t DEFAULT_BROKER_PORT_AUTO = 0;
 
 /******************************************************************************
- * TYPEDEF
+  TYPEDEF
  ******************************************************************************/
 
 typedef bool (*onOTARequestCallbackFunc)(void);
 
+#if defined(BOARD_HAS_SECURE_ELEMENT)
+#ifdef SECURE_ELEMENT_GI
+using SecureElement_t = SecureElementClass;
+#else
+#warning "Please update Arduino_SecureElement library from library manager"
+using SecureElement_t = SecureElement;
+#endif
+#endif // BOARD_HAS_SECURE_ELEMENT
+
 /******************************************************************************
- * CLASS DECLARATION
+  CLASS DECLARATION
  ******************************************************************************/
 
 class ArduinoIoTCloudTCP: public ArduinoIoTCloudClass
@@ -152,7 +154,7 @@ class ArduinoIoTCloudTCP: public ArduinoIoTCloudClass
 #endif
 
 #if defined(BOARD_HAS_SECURE_ELEMENT)
-    SecureElement _selement;
+    SecureElement_t _selement;
     ECP256Certificate _cert;
     /* Flag used to store updated device certificate after broker connection has succeeded */
     bool _writeCertOnConnect;
@@ -199,7 +201,7 @@ class ArduinoIoTCloudTCP: public ArduinoIoTCloudClass
 };
 
 /******************************************************************************
- * EXTERN DECLARATION
+  EXTERN DECLARATION
  ******************************************************************************/
 
 extern ArduinoIoTCloudTCP ArduinoCloud;
