@@ -46,8 +46,34 @@ WiFiConnectionHandler::WiFiConnectionHandler(char const * ssid, char const * pas
 
 unsigned long WiFiConnectionHandler::getTime()
 {
-#if !defined(ARDUINO_ARCH_ESP8266) && !defined(ARDUINO_ARCH_ESP32)
+#if defined(ARDUINO_ARCH_ZEPHYR)
+  return time(NULL);
+#elif !defined(ARDUINO_ARCH_ESP8266) && !defined(ARDUINO_ARCH_ESP32)
   return WiFi.getTime();
+#else
+  return 0;
+#endif
+}
+
+int WiFiConnectionHandler::ping(IPAddress ip, uint8_t ttl, uint8_t count) {
+#if !defined(ARDUINO_ARCH_ESP8266) && !defined(ARDUINO_ARCH_ESP32) && !defined(ARDUINO_ARCH_ZEPHYR)
+  return WiFi.ping(ip);
+#else
+  return 0;
+#endif
+}
+
+int WiFiConnectionHandler::ping(const String &hostname, uint8_t ttl, uint8_t count) {
+#if !defined(ARDUINO_ARCH_ESP8266) && !defined(ARDUINO_ARCH_ESP32) && !defined(ARDUINO_ARCH_ZEPHYR)
+  return WiFi.ping(hostname);
+#else
+  return 0;
+#endif
+}
+
+int WiFiConnectionHandler::ping(const char* host, uint8_t ttl, uint8_t count) {
+#if !defined(ARDUINO_ARCH_ESP8266) && !defined(ARDUINO_ARCH_ESP32) && !defined(ARDUINO_ARCH_ZEPHYR)
+  return WiFi.ping(host);
 #else
   return 0;
 #endif
@@ -134,7 +160,7 @@ NetworkConnectionState WiFiConnectionHandler::update_handleConnecting()
   }
 
   #if !defined(ARDUINO_ARCH_ESP8266) && !defined(ARDUINO_ARCH_ESP32)
-  int ping_result = WiFi.ping("time.arduino.cc");
+  int ping_result = ping("time.arduino.cc");
   DEBUG_INFO(F("WiFi.ping(): %d"), ping_result);
   if (ping_result < 0)
   {

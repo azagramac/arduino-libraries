@@ -1,0 +1,5 @@
+# 🛠️ Arduino SE05X
+
+[![Arduino Lint](https://github.com/arduino-libraries/Arduino_SE05X/actions/workflows/check-arduino.yml/badge.svg)](https://github.com/arduino-libraries/Arduino_SE05X/actions/workflows/check-arduino.yml) [![Compile Examples](https://github.com/arduino-libraries/Arduino_SE05X/actions/workflows/compile-examples.yml/badge.svg)](https://github.com/arduino-libraries/Arduino_SE05X/actions/workflows/compile-examples.yml) [![Spell Check](https://github.com/arduino-libraries/Arduino_SE05X/actions/workflows/spell-check.yml/badge.svg)](https://github.com/arduino-libraries/Arduino_SE05X/actions/workflows/spell-check.yml) [![Sync Labels](https://github.com/arduino-libraries/Arduino_SE05X/actions/workflows/sync-labels.yml/badge.svg)](https://github.com/arduino-libraries/Arduino_SE05X/actions/workflows/sync-labels.yml)
+
+This library provides a high-level Arduino interface for the NXP EdgeLock® SE05x Secure Element family. It allows you to integrate hardware-based security into your IoT projects, handling sensitive tasks like cryptographic signing, hardware key storage, and secure communication without exposing private keys to the application processor.

@@ -17,7 +17,10 @@
 
 #include "ConnectionHandlerInterface.h"
 
-#if defined(ARDUINO_PORTENTA_H7_M7)
+#if defined(ARDUINO_ARCH_ZEPHYR)
+  #include <Ethernet.h>
+  #include <EthernetUdp.h>
+#elif defined(ARDUINO_PORTENTA_H7_M7)
   #include <Ethernet.h>
   #include <PortentaEthernet.h>
 #elif defined(ARDUINO_PORTENTA_C33)
@@ -53,6 +56,10 @@ class EthernetConnectionHandler : public ConnectionHandler
       unsigned long const timeout = 15000,
       unsigned long const responseTimeout = 4000,
       bool const keep_alive = true);
+
+    int ping(IPAddress ip, uint8_t ttl = 128, uint8_t count = 1) override;
+    int ping(const String &hostname, uint8_t ttl = 128, uint8_t count = 1) override;
+    int ping(const char* host, uint8_t ttl = 128, uint8_t count = 1) override;
 
     virtual unsigned long getTime() override { return 0; }
     virtual Client & getClient() override{ return _eth_client; }

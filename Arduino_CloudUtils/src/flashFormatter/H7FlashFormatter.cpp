@@ -5,10 +5,15 @@
   License, v. 2.0. If a copy of the MPL was not distributed with this
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
 */
-#if defined(ARDUINO_PORTENTA_H7_M7) || defined(ARDUINO_NICLA_VISION) \
-  || defined(ARDUINO_OPTA) || defined(ARDUINO_GIGA)
+#if (defined(ARDUINO_PORTENTA_H7_M7) || defined(ARDUINO_NICLA_VISION) \
+  || defined(ARDUINO_OPTA) || defined(ARDUINO_GIGA)) && \
+  !defined(ARDUINO_ARCH_ZEPHYR)
 #include "H7FlashFormatter.h"
 #include "certificates.h"
+
+#if defined(ARDUINO_OPTA)
+#include <WiFi.h>
+#endif
 
 bool MBEDH7FlashFormatter::checkWiFiData()
 {
@@ -17,6 +22,13 @@ bool MBEDH7FlashFormatter::checkWiFiData()
   if (!ret) {
     return false;
   }
+
+  #if defined(ARDUINO_OPTA)
+  // Skip for Opta Lite and RS485 since they don't have WiFi
+  if(WiFi.status() == WL_NO_MODULE){
+    return true;
+  }
+  #endif
   ret = checkFile("/wlan", "4343WA1.BIN");
   return ret;
 }
